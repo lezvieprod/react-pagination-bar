@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import './PaginationStyles.css';
+import './index.css';
 
 type RPBPagerState = Omit<RPBPaginationProps, 'itemPerPage'> & {
 	totalItems: number;

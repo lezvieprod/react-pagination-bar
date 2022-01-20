@@ -1,4 +1,4 @@
-import { Pagination } from './components/Pagination';
-import './export.css';
+import { Pagination } from './Pagination';
+import './index.css';
 
 export { Pagination };
