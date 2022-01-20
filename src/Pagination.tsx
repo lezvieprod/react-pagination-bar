@@ -168,8 +168,9 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
   if (pager && totalItems > itemPerPage) {
     return (
       <nav
+        className={styleClassName.rpbRootClassName}
         aria-label={`Pagination Navigation, Current Page ${pager.currentPage}`}>
-        <ul className={styleClassName.rpbRootClassName}>
+        <ul>
           {!onlyPageNumbers && (
             <>
               <li>
