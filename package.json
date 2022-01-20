@@ -1,6 +1,6 @@
 {
   "name": "react-pagination-bar",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Functional page navigation bar for react",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -19,25 +19,24 @@
     "prettier-watch": "onchange 'src/**/*' -- prettier --write {{changed}}"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": ">=16.8.0"
   },
   "author": {
     "name": "Ilya Sokol (lezvieprod)",
     "email": "lezviekgd@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "classnames": "^2.3.1"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/lezvieprod/react-pagination-bar"
   },
   "keywords": [
     "Pagination",
-    "React"
+    "React",
+    "Pagination bar"
   ],
   "devDependencies": {
     "@svgr/rollup": "^6.2.0",

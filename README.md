@@ -30,11 +30,16 @@ $ yarn add react-pagination-bar
 ## Usage
 
 To start using the library, add import Pagination and place the component in your code.
+If you are not going to customize the styles of the component, don't forget to add the default styles:
+```jsx
+import 'react-pagination-bar/dist/index.css'
+```
 
 Simple usage without react-router-dom:
 
 ```jsx
 import { Pagination } from "react-pagination-bar"
+import 'react-pagination-bar/dist/index.css'
 
 const posts = [
   { id: 1, title: 'Post 1' },
