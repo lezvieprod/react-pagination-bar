@@ -7,7 +7,6 @@
 <h1 align="center">React Pagination Bar</h1>
 <p align="center">Lightweight component for pagination of application pages on react</p>
 
-<hr/>
 ## Features
 
 - Customizing class names without using style overrides
@@ -57,23 +56,23 @@ export const App = () => {
   const pagePostsLimit = 3;
 
   return (
-  	<div className="App">
-  	  {posts
-	      .slice(
-		  currentPage > 0 ? (currentPage - 1) * pagePostsLimit : 0,
-		  (currentPage - 1) * pagePostsLimit + pagePostsLimit, 
-	      )
-	      .map((post) => {
-		  return <div key={post.id}>{post.title}</div>;
-	      })}
-	    <Pagination
-	      initialPage={currentPage}
-	      itemPerPage={pagePostsLimit}
-	      onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
-	      totalItems={posts.length}
-	      pageNeighbours={2}
-            />
-	</div>
+    <div className="App">
+      {posts
+        .slice(
+          (currentPage - 1) * pagePostsLimit,
+          (currentPage - 1) * pagePostsLimit + pagePostsLimit
+        )
+        .map((post) => {
+          return <div key={post.id}>{post.title}</div>;
+        })}
+      <Pagination
+        initialPage={currentPage}
+        itemPerPage={pagePostsLimit}
+        onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
+        totalItems={posts.length}
+        pageNeighbours={2}
+      />
+    </div>
   );
 };
 ```
