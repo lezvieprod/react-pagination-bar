@@ -1,0 +1,93 @@
+{
+  "name": "react-pagination-bar",
+  "version": "1.0.0",
+  "description": "Functional page navigation bar for react",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "typings": "dist/index",
+  "scripts": {
+    "lint": "eslint src/**/* --ext .ts,.tsx --fix",
+    "test": "npm run lint && jest",
+    "build": "rollup -c",
+    "start": "rollup -c -w && npm run prettier-watch",
+    "prepare": "npm run build && husky install",
+    "prettier-watch": "onchange 'src/**/*' -- prettier --write {{changed}}"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "author": {
+    "name": "Ilya Sokol (lezvieprod)",
+    "email": "lezviekgd@gmail.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "^2.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "Pagination",
+    "React"
+  ],
+  "devDependencies": {
+    "@svgr/rollup": "^6.2.0",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
+    "onchange": "7.1.0",
+    "prettier": "^2.5.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.64.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "rollup-plugin-url": "^3.0.1",
+    "typescript": "^4.5.4"
+  },
+  "files": [
+    "dist"
+  ],
+  "lint-staged": {
+    "*.{js,ts,tsx,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,css,md}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not op_mini all"
+  ]
+}
