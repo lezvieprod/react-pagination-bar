@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import { useState } from 'react';
 import { Pagination } from 'react-pagination-bar';
 import 'react-pagination-bar/dist/index.css';
@@ -19,7 +17,7 @@ const posts = [
   { id: 12, title: 'Post 12' },
 ];
 
-export const App = () => {
+export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pagePostsLimit = 3;
 
@@ -44,5 +42,3 @@ export const App = () => {
     </div>
   );
 };
-
-export default App;
