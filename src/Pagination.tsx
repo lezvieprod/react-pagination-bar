@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './index.css';
 
-type RPBPagerState = Omit<RPBPaginationProps, 'itemPerPage'> & {
+type RPBPagerState = Omit<RPBPaginationProps, 'itemsPerPage'> & {
   totalItems: number;
   currentPage: number;
   pageSize: number;
@@ -22,10 +22,10 @@ type RPBClassNamesCustomization = {
 };
 
 type RPBPaginationProps = {
-  onChangePage: (pageNumber: number) => void;
+  onPageСhange: (pageNumber: number) => void;
   initialPage?: number;
   totalItems: number;
-  itemPerPage: number;
+  itemsPerPage: number;
   startLabel?: string;
   prevLabel?: string;
   nextLabel?: string;
@@ -40,10 +40,10 @@ type RPBPaginationProps = {
 };
 
 export const Pagination: React.FC<RPBPaginationProps> = ({
-  onChangePage,
+  onPageСhange,
   initialPage = 1,
   totalItems,
-  itemPerPage = 10,
+  itemsPerPage = 10,
   startLabel = 'Start',
   prevLabel = 'Prev',
   nextLabel = 'Next',
@@ -99,11 +99,11 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
     getPager();
 
     // Send new page outside component
-    onChangePage(page);
+    onPageСhange(page);
   };
 
   const getPager = useCallback((): void => {
-    const totalPages = Math.ceil(totalItems / itemPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     let startPage: number;
     let endPage: number;
@@ -131,7 +131,7 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
     setPager({
       totalItems: totalItems,
       currentPage: currentPage,
-      pageSize: itemPerPage,
+      pageSize: itemsPerPage,
       totalPages: totalPages,
       startPage: startPage,
       endPage: endPage,
@@ -140,7 +140,7 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
       startLabel,
       prevLabel,
       nextLabel,
-      onChangePage: onChangePage,
+      onPageСhange,
       pageNeighbours,
       withProgressBar,
       onlyPageNumbers,
@@ -149,7 +149,7 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
       withDebug,
       initialPage,
     });
-  }, [currentPage, itemPerPage, totalItems]);
+  }, [currentPage, itemsPerPage, totalItems]);
 
   const onGoToPageSubmitHandle = (): void => {
     const value = Number(goToInputValue);
@@ -165,12 +165,12 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
     }
   };
 
-  if (pager && totalItems > itemPerPage) {
+  if (pager && totalItems > itemsPerPage) {
     return (
-      <nav
-        className={styleClassName.rpbRootClassName}
-        aria-label={`Pagination Navigation, Current Page ${pager.currentPage}`}>
-        <ul>
+      <nav className={styleClassName.rpbRootClassName}>
+        <ul
+          id="rpb-pagination"
+          aria-label={`Pagination Navigation, Current Page ${pager.currentPage}`}>
           {!onlyPageNumbers && (
             <>
               <li>
@@ -278,6 +278,7 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
             }
             aria-valuemin={0}
             aria-valuemax={100}
+            aria-labelledby="rpb-pagination"
             className={styleClassName.rpbProgressClassName}
             style={{
               width:

@@ -34,8 +34,8 @@ export const App: React.FC = () => {
         })}
       <Pagination
         initialPage={currentPage}
-        itemPerPage={pagePostsLimit}
-        onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
+        itemsPerPage={pagePostsLimit}
+        onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
         totalItems={posts.length}
         pageNeighbours={2}
       />

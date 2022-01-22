@@ -1,6 +1,6 @@
 {
   "name": "react-pagination-bar",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Functional page navigation bar for react",
   "main": "dist/index.js",
   "module": "dist/index.es.js",

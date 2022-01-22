@@ -63,13 +63,8 @@ export const App = () => {
   return (
     <div className="App">
       {posts
-        .slice(
-          (currentPage - 1) * pagePostsLimit,
-          (currentPage - 1) * pagePostsLimit + pagePostsLimit
-        )
-        .map((post) => {
-          return <div key={post.id}>{post.title}</div>;
-        })}
+        .slice((currentPage - 1) * pagePostsLimit, currentPage * pagePostsLimit)
+        .map((post) => <div key={post.id}>{post.title}</div>)}
       <Pagination
         initialPage={currentPage}
         itemPerPage={pagePostsLimit}
@@ -81,6 +76,125 @@ export const App = () => {
   );
 };
 ```
+## Props
+<table>
+  <thead>
+    <tr>
+      <th>Prop name</th>
+      <th>Type</th>
+      <th>Default value</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>totalItems</td>
+      <td>Number</td>
+      <td>None</td>
+      <td>Total number of items on the server.</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>onPageСhange</td>
+      <td>((pageNumber: number) => void)</td>
+      <td>None</td>
+      <td>Callback triggered on page change.</td>
+      <td>Yes</td>
+    </tr>
+     <tr>
+      <td>initialPage</td>
+      <td>Number</td>
+      <td>1</td>
+      <td>Page number to be shown first.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>itemsPerPage</td>
+      <td>Number</td>
+      <td>10</td>
+      <td>Callback triggered on page change.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>startLabel</td>
+      <td>String</td>
+      <td>'Start'</td>
+      <td>The text of the button that sends to the first page.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>endLabel</td>
+      <td>String</td>
+      <td>'End'</td>
+      <td>The text of the button that sends to the last page.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>prevLabel</td>
+      <td>String</td>
+      <td>'Prev'</td>
+      <td>The text of the button that sends to the previous page.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>nextLabel</td>
+      <td>String</td>
+      <td>'Next'</td>
+      <td>The text of the button that sends to the next page.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>pageNeighbours</td>
+      <td>Number</td>
+      <td>4</td>
+      <td>The number of pages displayed next to the currently selected.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>withProgressBar</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>Shows the progress bar under pagination.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>onlyPageNumbers</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>Removes buttons and leaves only pages.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>onlyPaginationButtons</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>Removes pages leaves only buttons.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>withGoToInput</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>Shows the input field to go to the page.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>customClassNames</td>
+      <td>Object</td>
+      <td>*Take a look at the example with component customization*</td>
+      <td>Replaces default class names.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>withDebug</td>
+      <td>Boolean</td>
+      <td>false</td>
+      <td>When changing the page, it shows the current state of the component.</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
 
 ## More examples
 
