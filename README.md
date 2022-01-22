@@ -67,8 +67,8 @@ export const App = () => {
         .map((post) => <div key={post.id}>{post.title}</div>)}
       <Pagination
         initialPage={currentPage}
-        itemPerPage={pagePostsLimit}
-        onChangePage={(pageNumber) => setCurrentPage(pageNumber)}
+        itemsPerPage={pagePostsLimit}
+        onPageСhange={(pageNumber) => setCurrentPage(pageNumber)}
         totalItems={posts.length}
         pageNeighbours={2}
       />
