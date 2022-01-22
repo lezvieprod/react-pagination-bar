@@ -1,6 +1,6 @@
 {
   "name": "react-pagination-bar",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Functional page navigation bar for react",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -38,6 +38,7 @@
     "React",
     "Pagination bar"
   ],
+  "homepage": "https://react-pagination-bar.vercel.app/",
   "devDependencies": {
     "@svgr/rollup": "^6.2.0",
     "@types/react": "^17.0.38",

@@ -6,6 +6,7 @@
 
 <h1 align="center">React Pagination Bar</h1>
 <p align="center">Lightweight component for pagination of application pages on react</p>
+<p align="center"><a href="https://react-pagination-bar.vercel.app/" rel="nofollow" target="_blank">Demo</a></p>
 
 ## Features
 
