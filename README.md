@@ -8,6 +8,16 @@
 <p align="center">Lightweight component for pagination of application pages on react</p>
 <p align="center"><a href="https://react-pagination-bar.vercel.app/" rel="nofollow" target="_blank">Demo</a></p>
 
+### Content
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Usage](#usage)
+- [Props](#props)
+- [Upgrading from v1 to v2](#upgrading-from-v1-to-v2)
+- [More examples](#more-examples)
+- [License](#license)
+
+
 ## Features
 
 - Customizing class names without using style overrides
@@ -16,7 +26,7 @@
   and have the right `aria-*` attributes.
 - Lightweight :P
 
-## Getting Started
+## Getting started
 
 Install the library using one of these commands:
 
@@ -67,9 +77,9 @@ export const App = () => {
         .slice((currentPage - 1) * pagePostsLimit, currentPage * pagePostsLimit)
         .map((post) => <div key={post.id}>{post.title}</div>)}
       <Pagination
-        initialPage={currentPage}
+        currentPage={currentPage}
         itemsPerPage={pagePostsLimit}
-        onPageСhange={(pageNumber) => setCurrentPage(pageNumber)}
+        onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
         totalItems={posts.length}
         pageNeighbours={2}
       />
@@ -97,25 +107,25 @@ export const App = () => {
       <td>Yes</td>
     </tr>
     <tr>
-      <td>onPageСhange</td>
+      <td>onPageChange</td>
       <td>((pageNumber: number) => void)</td>
       <td>None</td>
       <td>Callback triggered on page change.</td>
       <td>Yes</td>
     </tr>
      <tr>
-      <td>initialPage</td>
+      <td>currentPage</td>
       <td>Number</td>
       <td>1</td>
-      <td>Page number to be shown first.</td>
+      <td>Page number to be shown first. Be sure to synchronize the value with the server if you work with routing!</td>
       <td>No</td>
     </tr>
     <tr>
       <td>itemsPerPage</td>
       <td>Number</td>
       <td>10</td>
-      <td>Callback triggered on page change.</td>
-      <td>No</td>
+      <td>The number of items to display on your page. Be sure to synchronize the value with the server if you work with routing!</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>startLabel</td>
@@ -187,15 +197,15 @@ export const App = () => {
       <td>Replaces default class names.</td>
       <td>No</td>
     </tr>
-    <tr>
-      <td>withDebug</td>
-      <td>Boolean</td>
-      <td>false</td>
-      <td>When changing the page, it shows the current state of the component.</td>
-      <td>No</td>
-    </tr>
+    
   </tbody>
 </table>
+
+## Upgrading from v1 to v2
+1. Use currentPage instead initialPage
+2. Update your onPageChange to onPageChange (fixed C letter from Cyrillic to Latin)
+3. Add itemsPerPage if you haven't already
+4. Remove withDebug if you have added it
 
 ## More examples
 

@@ -1,15 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import classNames from 'classnames';
-import './index.css';
+import React, { useEffect, useMemo, useState } from 'react';
 
-type RPBPagerState = Omit<RPBPaginationProps, 'itemsPerPage'> & {
+type RPBPagerState = {
   totalItems: number;
   currentPage: number;
-  pageSize: number;
-  totalPages: number;
-  startPage: number;
-  endPage: number;
+  pagesLength: number;
   pages: number[];
+  totalPages: number;
 };
 
 type RPBClassNamesCustomization = {
@@ -22,42 +18,46 @@ type RPBClassNamesCustomization = {
 };
 
 type RPBPaginationProps = {
-  onPageСhange: (pageNumber: number) => void;
-  initialPage?: number;
+  onPageChange: (pageNumber: number) => void;
+  currentPage: number;
   totalItems: number;
   itemsPerPage: number;
-  startLabel?: string;
-  prevLabel?: string;
-  nextLabel?: string;
-  endLabel?: string;
+  startLabel?: string | React.ReactNode;
+  prevLabel?: string | React.ReactNode;
+  nextLabel?: string | React.ReactNode;
+  endLabel?: string | React.ReactNode;
   pageNeighbours?: number;
   withProgressBar?: boolean;
   onlyPageNumbers?: boolean;
   onlyPaginationButtons?: boolean;
   withGoToInput?: boolean;
   customClassNames?: RPBClassNamesCustomization;
-  withDebug?: boolean;
 };
 
 export const Pagination: React.FC<RPBPaginationProps> = ({
-  onPageСhange,
-  initialPage = 1,
+  onPageChange,
+  currentPage = 1,
   totalItems,
   itemsPerPage = 10,
-  startLabel = 'Start',
-  prevLabel = 'Prev',
-  nextLabel = 'Next',
-  endLabel = 'End',
+  startLabel = '<<',
+  prevLabel = '<',
+  nextLabel = '>',
+  endLabel = '>>',
   pageNeighbours = 4,
   withProgressBar = false,
   onlyPageNumbers = false,
   withGoToInput = false,
   onlyPaginationButtons = false,
-  withDebug = false,
   customClassNames = {},
 }) => {
-  const [pager, setPager] = useState<RPBPagerState>();
-  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+  const classNames = (classes: Record<string, boolean>): string => {
+    return Object.entries(classes)
+      .filter(([, value]) => value)
+      .map(([key]) => key)
+      .join(' ');
+  };
+
+  const [pagiState, setPagiState] = useState<RPBPagerState>();
   const [goToInputValue, setGoToInputValue] = useState<string>('');
 
   const styleClassName = {
@@ -77,33 +77,29 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
    */
   useEffect(() => {
     setPage(currentPage);
-    if (withDebug) {
-      console.log('Current pager state: ', pager);
-    }
   }, [currentPage]);
 
   const setPage = (page: number): void => {
+    // Disable clicking on a non-existent page
     if (
       page < 1 ||
-      (pager && page > pager.totalPages) ||
+      (pagiState && page > pagiState.totalPages) ||
       typeof page !== 'number' ||
       isNaN(page)
     ) {
       return;
     }
 
-    // Set new current page
-    setCurrentPage(page);
-
-    // Update pager
-    getPager();
-
-    // Send new page outside component
-    onPageСhange(page);
+    // Remove the first rendering, and also cancel the click on the active page
+    if (page === currentPage) {
+      return;
+    }
+    // Send current page outside component
+    onPageChange(page);
   };
 
-  const getPager = useCallback((): void => {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pagesList = useMemo((): number[] => {
+    const totalPages: number = Math.ceil(totalItems / itemsPerPage);
 
     let startPage: number;
     let endPage: number;
@@ -124,53 +120,39 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
       }
     }
 
-    const pages = [...Array(endPage + 1 - startPage).keys()].map(
-      (i) => startPage + i
-    );
+    return [...Array(endPage + 1 - startPage).keys()].map((i) => startPage + i);
+  }, [totalItems, itemsPerPage, currentPage]);
 
-    setPager({
+  useEffect(() => {
+    setPagiState({
+      pages: pagesList,
       totalItems: totalItems,
       currentPage: currentPage,
-      pageSize: itemsPerPage,
-      totalPages: totalPages,
-      startPage: startPage,
-      endPage: endPage,
-      pages: pages,
-      endLabel,
-      startLabel,
-      prevLabel,
-      nextLabel,
-      onPageСhange,
-      pageNeighbours,
-      withProgressBar,
-      onlyPageNumbers,
-      withGoToInput,
-      onlyPaginationButtons,
-      withDebug,
-      initialPage,
+      pagesLength: pagesList.length, // current rendered pages list length
+      totalPages: Math.ceil(totalItems / itemsPerPage), // all pages list length
     });
-  }, [currentPage, itemsPerPage, totalItems]);
+  }, [pagesList]);
 
   const onGoToPageSubmitHandle = (): void => {
     const value = Number(goToInputValue);
 
-    if (pager) {
+    if (pagiState) {
       if (value <= 0) {
         setPage(1);
-      } else if (value > pager.totalPages) {
-        setPage(pager.totalPages);
+      } else if (value > pagiState.totalPages) {
+        setPage(pagiState.totalPages);
       } else {
         setPage(value);
       }
     }
   };
 
-  if (pager && totalItems > itemsPerPage) {
+  if (pagiState && totalItems > itemsPerPage) {
     return (
       <nav className={styleClassName.rpbRootClassName}>
         <ul
           id="rpb-pagination"
-          aria-label={`Pagination Navigation, Current Page ${pager.currentPage}`}>
+          aria-label={`Pagination Navigation, Current Page ${pagiState.currentPage}`}>
           {!onlyPageNumbers && (
             <>
               <li>
@@ -178,9 +160,9 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
                   className={classNames({
                     [styleClassName.rpbItemClassName]: true,
                     [styleClassName.rpbItemClassNameDisable]:
-                      pager.currentPage === 1,
+                      pagiState.currentPage === 1,
                   })}
-                  aria-label={'Start'}
+                  aria-label={'Go to first page'}
                   onClick={() => setPage(1)}>
                   {startLabel}
                 </button>
@@ -190,10 +172,10 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
                   className={classNames({
                     [styleClassName.rpbItemClassName]: true,
                     [styleClassName.rpbItemClassNameDisable]:
-                      pager.currentPage === 1,
+                      pagiState.currentPage === 1,
                   })}
-                  aria-label={'Prev'}
-                  onClick={() => setPage(pager.currentPage - 1)}>
+                  aria-label={'Go to previous page'}
+                  onClick={() => setPage(pagiState.currentPage - 1)}>
                   {prevLabel}
                 </button>
               </li>
@@ -201,22 +183,19 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
           )}
 
           {!onlyPaginationButtons &&
-            pager.pages &&
-            pager.pages.map((page, index) => (
-              <li
-                key={index}
-                data-page={page}
-                data-current={pager.currentPage === page}>
+            pagiState.pages &&
+            pagiState.pages.map((mappedPage, index) => (
+              <li key={index}>
                 <button
-                  aria-label={`Go to Page ${page}`}
-                  aria-current={pager.currentPage === page}
-                  onClick={() => setPage(page)}
+                  aria-label={`Go to Page ${mappedPage}`}
+                  aria-current={pagiState.currentPage === mappedPage}
+                  onClick={() => setPage(mappedPage)}
                   className={classNames({
                     [styleClassName.rpbItemClassName]: true,
                     [styleClassName.rpbItemClassNameActive]:
-                      pager.currentPage === page,
+                      pagiState.currentPage === mappedPage,
                   })}>
-                  {page}
+                  {mappedPage}
                 </button>
               </li>
             ))}
@@ -224,12 +203,12 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
             <>
               <li>
                 <button
-                  onClick={() => setPage(pager.currentPage + 1)}
-                  aria-label="Next"
+                  onClick={() => setPage(pagiState.currentPage + 1)}
+                  aria-label="Go to next page"
                   className={classNames({
                     [styleClassName.rpbItemClassName]: true,
                     [styleClassName.rpbItemClassNameDisable]:
-                      pager.currentPage === pager.totalPages,
+                      pagiState.currentPage === pagiState.totalPages,
                   })}>
                   {nextLabel}
                 </button>
@@ -239,10 +218,10 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
                   className={classNames({
                     [styleClassName.rpbItemClassName]: true,
                     [styleClassName.rpbItemClassNameDisable]:
-                      pager.currentPage === pager.totalPages,
+                      pagiState.currentPage === pagiState.totalPages,
                   })}
-                  aria-label={'End'}
-                  onClick={() => setPage(pager.totalPages)}>
+                  aria-label={'Go to last page'}
+                  onClick={() => setPage(pagiState.totalPages)}>
                   {endLabel}
                 </button>
               </li>
@@ -272,8 +251,10 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
           <div
             role="progressbar"
             aria-valuenow={
-              pager.currentPage !== 1
-                ? Math.round((pager.currentPage / pager.totalPages) * 100)
+              pagiState.currentPage !== 1
+                ? Math.round(
+                    (pagiState.currentPage / pagiState.totalPages) * 100
+                  )
                 : 0
             }
             aria-valuemin={0}
@@ -282,9 +263,10 @@ export const Pagination: React.FC<RPBPaginationProps> = ({
             className={styleClassName.rpbProgressClassName}
             style={{
               width:
-                pager.currentPage !== 1
-                  ? Math.round((pager.currentPage / pager.totalPages) * 100) +
-                    '%'
+                pagiState.currentPage !== 1
+                  ? Math.round(
+                      (pagiState.currentPage / pagiState.totalPages) * 100
+                    ) + '%'
                   : 0 + '%',
             }}></div>
         )}
