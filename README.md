@@ -118,7 +118,7 @@ export const App = () => {
       <td>Number</td>
       <td>1</td>
       <td>Page number to be shown first. Be sure to synchronize the value with the server if you work with routing!</td>
-      <td>No</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>itemsPerPage</td>
@@ -130,28 +130,28 @@ export const App = () => {
     <tr>
       <td>startLabel</td>
       <td>String</td>
-      <td>'Start'</td>
+      <td>'<<'</td>
       <td>The text of the button that sends to the first page.</td>
       <td>No</td>
     </tr>
     <tr>
       <td>endLabel</td>
       <td>String</td>
-      <td>'End'</td>
+      <td>'>>'</td>
       <td>The text of the button that sends to the last page.</td>
       <td>No</td>
     </tr>
     <tr>
       <td>prevLabel</td>
       <td>String</td>
-      <td>'Prev'</td>
+      <td>'<'</td>
       <td>The text of the button that sends to the previous page.</td>
       <td>No</td>
     </tr>
     <tr>
       <td>nextLabel</td>
       <td>String</td>
-      <td>'Next'</td>
+      <td>'>'</td>
       <td>The text of the button that sends to the next page.</td>
       <td>No</td>
     </tr>
